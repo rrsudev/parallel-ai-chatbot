@@ -196,7 +196,8 @@ export const SidebarUpdateItem: FC<SidebarUpdateItemProps> = ({
       setSelectedAssistantTools
     },
     tools: null,
-    models: null
+    models: null,
+    notes: null
   }
 
   const fetchDataFunctions = {
@@ -226,7 +227,8 @@ export const SidebarUpdateItem: FC<SidebarUpdateItemProps> = ({
       setSelectedAssistantTools([])
     },
     tools: null,
-    models: null
+    models: null,
+    notes: null
   }
 
   const fetchWorkpaceFunctions = {
@@ -258,7 +260,8 @@ export const SidebarUpdateItem: FC<SidebarUpdateItemProps> = ({
     models: async (modelId: string) => {
       const item = await getModelWorkspacesByModelId(modelId)
       return item.workspaces
-    }
+    },
+    notes: null
   }
 
   const fetchSelectedWorkspaces = async () => {
@@ -568,7 +571,8 @@ export const SidebarUpdateItem: FC<SidebarUpdateItemProps> = ({
       )
 
       return updatedModel
-    }
+    },
+    notes: null
   }
 
   const stateUpdateFunctions = {
@@ -579,7 +583,8 @@ export const SidebarUpdateItem: FC<SidebarUpdateItemProps> = ({
     collections: setCollections,
     assistants: setAssistants,
     tools: setTools,
-    models: setModels
+    models: setModels,
+    notes: null
   }
 
   const handleUpdate = async () => {

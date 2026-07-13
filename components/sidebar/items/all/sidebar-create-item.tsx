@@ -170,7 +170,8 @@ export const SidebarCreateItem: FC<SidebarCreateItemProps> = ({
       return updatedAssistant
     },
     tools: createTool,
-    models: createModel
+    models: createModel,
+    notes: null
   }
 
   const stateUpdateFunctions = {
@@ -181,7 +182,8 @@ export const SidebarCreateItem: FC<SidebarCreateItemProps> = ({
     collections: setCollections,
     assistants: setAssistants,
     tools: setTools,
-    models: setModels
+    models: setModels,
+    notes: null
   }
 
   const handleCreate = async () => {

@@ -4,8 +4,9 @@ import { ContentType } from "@/types"
 import { FC, useContext } from "react"
 import { SIDEBAR_WIDTH } from "../ui/dashboard"
 import { TabsContent } from "../ui/tabs"
-import { WorkspaceSwitcher } from "../utility/workspace-switcher"
+// import { WorkspaceSwitcher } from "../utility/workspace-switcher"
 import { WorkspaceSettings } from "../workspace/workspace-settings"
+import { NotesPanel } from "../notes/notes-panel"
 import { SidebarContent } from "./sidebar-content"
 
 interface SidebarProps {
@@ -62,7 +63,11 @@ export const Sidebar: FC<SidebarProps> = ({ contentType, showSidebar }) => {
     >
       <div className="flex h-full flex-col p-3">
         <div className="flex items-center border-b-2 pb-2">
-          <WorkspaceSwitcher />
+          {/*
+            Multiple-workspace switching is hidden for now. The functionality
+            is intact — re-enable by uncommenting <WorkspaceSwitcher /> below.
+          */}
+          {/* <WorkspaceSwitcher /> */}
 
           <WorkspaceSettings />
         </div>
@@ -100,6 +105,9 @@ export const Sidebar: FC<SidebarProps> = ({ contentType, showSidebar }) => {
 
             case "models":
               return renderSidebarContent("models", models, modelFolders)
+
+            case "notes":
+              return <NotesPanel />
 
             default:
               return null
