@@ -40,7 +40,8 @@ next-env.d.ts
 tool-schemas
 custom-prompts
 
-sw.js
+# sw.js is now a hand-written self-destroying service worker (public/sw.js),
+# committed on purpose so it deploys and cleans up the old next-pwa worker.
 sw.js.map
 workbox-*.js
 workbox-*.js.map
