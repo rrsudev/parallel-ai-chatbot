@@ -88,8 +88,18 @@ export default async function Login({
 
   const getEnvVarOrEdgeConfigValue = async (name: string) => {
     "use server"
-    if (process.env.EDGE_CONFIG) {
-      return await get<string>(name)
+    try {
+      if (process.env.EDGE_CONFIG) {
+        return await get<string>(name)
+      }
+    } catch (error) {
+      // EDGE_CONFIG is set but the store is unreachable/misconfigured
+      // (@vercel/edge-config throws e.g. "Unauthorized"). Don't crash signup —
+      // fall back to the plain environment variable instead.
+      console.error(
+        "Edge Config lookup failed, falling back to env var:",
+        error
+      )
     }
 
     return process.env[name]
