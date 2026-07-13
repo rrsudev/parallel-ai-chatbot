@@ -73,8 +73,13 @@ export default async function Login({
       .single()
 
     if (!homeWorkspace) {
-      throw new Error(
-        homeWorkspaceError?.message || "An unexpected error occurred"
+      // Authenticated but no home workspace (e.g. an account created before the
+      // profile/workspace trigger existed). Surface a message instead of a 500.
+      return redirect(
+        `/login?message=${encodeURIComponent(
+          homeWorkspaceError?.message ||
+            "No workspace found for this account. Please sign up again."
+        )}`
       )
     }
 
