@@ -1,8 +1,14 @@
 --------------- FILE ITEMS ---------------
 
+-- The pgvector "vector" type and its operators live in the extensions schema.
+-- Put it on the search_path so unqualified references below (the vector column
+-- type, the vector_cosine_ops index opclass, and the function signatures)
+-- resolve while this migration runs.
+set search_path = public, extensions;
+
 create table file_items (
   -- ID
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
 
   -- RELATIONSHIPS
   file_id UUID NOT NULL REFERENCES files(id) ON DELETE CASCADE,
@@ -69,6 +75,7 @@ create function match_file_items_local (
   similarity float
 )
 language plpgsql
+set search_path = public, extensions
 as $$
 #variable_conflict use_column
 begin
@@ -98,6 +105,7 @@ create function match_file_items_openai (
   similarity float
 )
 language plpgsql
+set search_path = public, extensions
 as $$
 #variable_conflict use_column
 begin

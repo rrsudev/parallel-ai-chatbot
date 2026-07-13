@@ -43,6 +43,10 @@ export const metadata: Metadata = {
     title: APP_DEFAULT_TITLE
     // startUpImage: [],
   },
+  other: {
+    // Standard replacement for the now-deprecated apple-mobile-web-app-capable.
+    "mobile-web-app-capable": "yes"
+  },
   formatDetection: {
     telephone: false
   },
