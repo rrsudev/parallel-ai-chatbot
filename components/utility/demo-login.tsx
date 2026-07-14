@@ -25,14 +25,12 @@ export const DemoLogin: FC = () => {
         } = await supabase.auth.getSession()
 
         if (!session) {
-          const email = process.env.NEXT_PUBLIC_DEMO_EMAIL
-          const password = process.env.NEXT_PUBLIC_DEMO_PASSWORD
-
-          if (!email || !password) {
-            throw new Error(
-              "Demo credentials are not configured (NEXT_PUBLIC_DEMO_EMAIL / NEXT_PUBLIC_DEMO_PASSWORD)."
-            )
-          }
+          // Demo credentials. These are intentionally public (this is a shared,
+          // throwaway demo account). Env vars can override them, but hardcoded
+          // defaults are used so the demo works with no Vercel configuration.
+          const email = process.env.NEXT_PUBLIC_DEMO_EMAIL || "demo@squidy.app"
+          const password =
+            process.env.NEXT_PUBLIC_DEMO_PASSWORD || "squidy-demo-2026"
 
           const { error: signInError } = await supabase.auth.signInWithPassword(
             { email, password }
