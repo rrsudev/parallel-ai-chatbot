@@ -2,6 +2,8 @@ import { Brand } from "@/components/ui/brand"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { SubmitButton } from "@/components/ui/submit-button"
+// DEMO BYPASS: temporary auto-login into a shared demo account.
+import { DemoLogin } from "@/components/utility/demo-login"
 import { createClient } from "@/lib/supabase/server"
 import { Database } from "@/supabase/types"
 import { createServerClient } from "@supabase/ssr"
@@ -33,20 +35,24 @@ export default async function Login({
   )
   const session = (await supabase.auth.getSession()).data.session
 
-  if (session) {
-    const { data: homeWorkspace, error } = await supabase
-      .from("workspaces")
-      .select("*")
-      .eq("user_id", session.user.id)
-      .eq("is_home", true)
-      .single()
-
-    if (!homeWorkspace) {
-      throw new Error(error.message)
-    }
-
-    return redirect(`/${homeWorkspace.id}/chat`)
-  }
+  // DEMO BYPASS: the server-side "already signed in" redirect is disabled while
+  // the demo auto-login is active. DemoLogin (rendered below) handles both the
+  // "already has a session" and "needs to sign in" cases on the client.
+  //
+  // if (session) {
+  //   const { data: homeWorkspace, error } = await supabase
+  //     .from("workspaces")
+  //     .select("*")
+  //     .eq("user_id", session.user.id)
+  //     .eq("is_home", true)
+  //     .single()
+  //
+  //   if (!homeWorkspace) {
+  //     throw new Error(error.message)
+  //   }
+  //
+  //   return redirect(`/${homeWorkspace.id}/chat`)
+  // }
 
   const signIn = async (formData: FormData) => {
     "use server"
@@ -176,6 +182,12 @@ export default async function Login({
     return redirect("/login?message=Check email to reset password")
   }
 
+  // DEMO BYPASS: skip the login form and auto-enter the shared demo account.
+  // To restore the real login flow, delete this return and uncomment the
+  // original form below (and re-enable the session redirect above).
+  return <DemoLogin />
+
+  /* ORIGINAL LOGIN FORM (temporarily disabled for demo)
   return (
     <div className="flex w-full flex-1 flex-col justify-center gap-2 px-8 sm:max-w-md">
       <form
@@ -233,4 +245,5 @@ export default async function Login({
       </form>
     </div>
   )
+  */
 }
